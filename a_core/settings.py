@@ -31,6 +31,15 @@ DEBUG = ENVIRONMENT == "development"
 
 ALLOWED_HOSTS = []
 
+if not DEBUG:
+    LIVE_HOST = env("LIVE_HOST", None)
+    if LIVE_HOST is None:
+        raise ImproperlyConfigured("LIVE_HOST is missing!")
+
+    ALLOWED_HOSTS.append(LIVE_HOST)
+
+    CSRF_TRUSTED_ORIGINS = [f"https://{LIVE_HOST}"]
+
 
 # APPLICATION DEFINITION.
 
